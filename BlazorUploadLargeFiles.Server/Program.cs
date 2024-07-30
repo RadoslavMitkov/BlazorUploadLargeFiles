@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+//builder.Services.AddAntiforgery();
 
 var app = builder.Build();
 
@@ -19,7 +20,7 @@ else
 }
 
 app.MapEndpoints();
-
+//app.UseAntiforgery();
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();

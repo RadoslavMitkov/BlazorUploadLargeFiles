@@ -25,7 +25,7 @@ public class UploadFiles : IEndpoint
     public record Response(
     );
 
-    private static async Task<Ok> Handle(List<IFormFile> files, /*AppDbContext database,*/ CancellationToken cancellationToken)
+    private static async Task<Ok> Handle([FromForm] IEnumerable<IFormFile> files, /*AppDbContext database,*/ CancellationToken cancellationToken)
     {
         foreach (var formFile in files)
         {

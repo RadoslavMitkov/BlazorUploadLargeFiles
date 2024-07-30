@@ -9,7 +9,7 @@ namespace BlazorUploadLargeFiles.Server
         {
             var endpoints = app.MapGroup("");
 
-            endpoints.MapGroup("/upload")
+            endpoints.MapGroup("/upload").DisableAntiforgery()
                 .MapEndpoint<UploadFiles>();
         }
 

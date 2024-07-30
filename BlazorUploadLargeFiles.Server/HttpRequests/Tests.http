@@ -1,0 +1,13 @@
+@hostname=localhost
+@port=7103
+@host={{hostname}}:{{port}}
+
+
+POST https://{{host}}/upload/-1
+Content-Type: application/json
+
+{
+    "id": "2"
+}
+
+###

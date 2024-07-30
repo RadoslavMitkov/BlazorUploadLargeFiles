@@ -1,6 +1,10 @@
+using BlazorUploadLargeFiles.Server;
+using FluentValidation;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 var app = builder.Build();
 
@@ -13,6 +17,8 @@ if (app.Environment.IsDevelopment())
 else
 { 
 }
+
+app.MapEndpoints();
 
 app.UseHttpsRedirection();
 

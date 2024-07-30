@@ -3,11 +3,7 @@
 @host={{hostname}}:{{port}}
 
 
-POST https://{{host}}/upload/-1
+POST https://{{host}}/upload/
 Content-Type: application/json
-
-{
-    "id": "2"
-}
 
 ###

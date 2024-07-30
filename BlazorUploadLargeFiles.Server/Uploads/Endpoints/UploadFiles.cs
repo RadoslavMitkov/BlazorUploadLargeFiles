@@ -2,31 +2,42 @@
 using BlazorUploadLargeFiles.Server.Common.Filters;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
-namespace BlazorUploadLargeFiles.Server.Uploads.Endpoints
+namespace BlazorUploadLargeFiles.Server.Uploads.Endpoints;
+
+public class UploadFiles : IEndpoint
 {
-    public class UploadFiles : IEndpoint
+    public static void Map(IEndpointRouteBuilder app) => app
+        .MapPost("/", Handle);
+        //.AddEndpointFilter<RequestValidationFilter<Request>>();
+
+    public record Request();
+
+    //public class RequestValidator : AbstractValidator<Request>
+    //{
+    //    public RequestValidator()
+    //    {
+    //        RuleFor(x => x.Id).GreaterThan(0);
+    //    }
+    //}
+
+    public record Response(
+    );
+
+    private static async Task<Ok> Handle(List<IFormFile> files, /*AppDbContext database,*/ CancellationToken cancellationToken)
     {
-        public static void Map(IEndpointRouteBuilder app) => app
-            .MapPost("/{id}", Handle)
-            .AddEndpointFilter<RequestValidationFilter<Request>>();
-
-        public record Request(int Id);
-
-        public class RequestValidator : AbstractValidator<Request>
+        foreach (var formFile in files)
         {
-            public RequestValidator()
+            if (formFile.Length > 0)
             {
-                RuleFor(x => x.Id).GreaterThan(0);
+                var filePath = Path.GetTempFileName();
+
+                using var stream = File.Create(filePath);
+                await formFile.CopyToAsync(stream, cancellationToken);
             }
         }
 
-        public record Response(
-        );
-
-        private static async Task<Results<Ok<Response>, NotFound>> Handle([AsParameters] Request request, /*AppDbContext database,*/ CancellationToken cancellationToken)
-        {
-            return TypedResults.Ok(new Response());
-        }
+        return TypedResults.Ok();
     }
 }
